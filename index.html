@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Move-Out Charge List</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Sample parts list (copied from the Charge Reference sheet). Only used while
+       CONFIG.PARTS_URL in app.js is blank. Safe to delete once n8n serves the list. -->
+  <script src="sample-parts.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <h1>Move-Out Charge List</h1>
+      <p class="subtitle">Check each charge, set the quantity, and add notes where needed.</p>
+    </header>
+
+    <!-- Shown when the page is not connected to n8n yet, or when loading fails -->
+    <div id="banner" class="banner" hidden></div>
+
+    <form id="charge-form" novalidate>
+      <!-- ===== Unit details: one field per line ===== -->
+      <section class="card">
+        <h2>Unit Details</h2>
+
+        <div class="field">
+          <label for="property">Property</label>
+          <select id="property" name="property" required>
+            <option value="" disabled selected>Select a property</option>
+            <option value="EVG">EVG</option>
+            <option value="WP">WP</option>
+            <option value="HG">HG</option>
+            <option value="GF">GF</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="customerName">Customer Name</label>
+          <input id="customerName" name="customerName" type="text" autocomplete="off" required>
+        </div>
+
+        <div class="field">
+          <label for="accountNumber">Account #</label>
+          <input id="accountNumber" name="accountNumber" type="text" inputmode="numeric" autocomplete="off" required>
+        </div>
+
+        <div class="field">
+          <label for="unitNumber">Unit #</label>
+          <input id="unitNumber" name="unitNumber" type="text" autocomplete="off" required>
+        </div>
+
+        <div class="field">
+          <label for="unitWalkedDate">Unit Walked Date</label>
+          <input id="unitWalkedDate" name="unitWalkedDate" type="date" required>
+        </div>
+      </section>
+
+      <!-- ===== Charge sections (built by app.js from the parts list) ===== -->
+      <section class="card">
+        <h2>Cleaning Charges</h2>
+        <p class="hint">Cost is per unit. Leave it blank to use the standard price shown.</p>
+        <div id="cleaning-list" class="charge-list">
+          <p class="loading">Loading charges…</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Replacement Charges</h2>
+        <div id="replacement-list" class="charge-list">
+          <p class="loading">Loading charges…</p>
+        </div>
+      </section>
+
+      <!-- ===== Other / user-defined charges ===== -->
+      <section class="card">
+        <h2>Other Charges</h2>
+        <p class="hint">For anything not listed above. Cost (per unit) is required.</p>
+        <div id="other-list" class="other-list"></div>
+        <button type="button" id="add-other" class="btn btn-secondary">+ Add another</button>
+      </section>
+
+      <!-- ===== Sticky footer: running total + submit ===== -->
+      <div class="submit-bar">
+        <div class="totals">
+          <span id="total-count">0 charges</span>
+          <strong id="total-amount">$0.00</strong>
+        </div>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <button type="submit" id="submit-btn" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+
+    <!-- ===== Thank-you screen (replaces the form after a successful submit) ===== -->
+    <section id="success" class="card success" hidden>
+      <div class="success-icon" aria-hidden="true">✓</div>
+      <h2>Charges submitted</h2>
+      <p id="success-summary"></p>
+      <button type="button" id="submit-another" class="btn btn-primary">Submit another</button>
+      <details id="demo-payload" class="demo-payload" hidden>
+        <summary>Demo mode: data that would be sent to n8n</summary>
+        <pre id="demo-payload-json"></pre>
+      </details>
+    </section>
+  </main>
+</body>
+</html>

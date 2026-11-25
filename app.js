@@ -10,7 +10,7 @@ const CONFIG = {
 
   // n8n POST webhook that receives submissions.
   // Blank = demo mode: nothing is sent; the thank-you screen shows the data instead.
-  SUBMIT_URL: "",
+  SUBMIT_URL: "https://springpm.app.n8n.cloud/webhook/charge-list-submit",
 };
 
 // =====================================================================

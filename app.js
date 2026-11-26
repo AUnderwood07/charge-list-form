@@ -86,8 +86,7 @@ async function loadParts() {
       raw = Array.isArray(data) ? data : data.parts;
     } else {
       raw = typeof SAMPLE_PARTS !== "undefined" ? SAMPLE_PARTS : [];
-      showBanner("Demo mode: using a sample parts list. Nothing is sent to n8n. " +
-                 "Submitting shows the data that would be sent.");
+
     }
     renderCharges(normalizeParts(raw || []));
   } catch (err) {
